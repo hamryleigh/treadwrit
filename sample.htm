@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fountain Script Example</title>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/fountain-js"></script>
+  <style>
+    #script-container {
+      font-family: 'Special Elite', cursive;
+      white-space: pre-wrap;
+      font-size: 14pt;
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="script-container"></div>
+
+  <script>
+    fetch('https://github.com/hamryleigh/treadwrit/blob/main/VHS%20Pizza%20-%20Working%20Pilot.fountain')
+     .then(response => response.text())
+     .then(data => {
+        const parsed = fountain.parse(data);
+        const scriptElement = document.getElementById('script-container');
+        parsed.tokens.forEach(token => {
+          let element;
+          if (token.type === 'character') {
+            element = document.createElement('h3');
+          } else if (token.type === 'dialogue') {
+            element = document.createElement('p');
+          } else if (token.type === 'action') {
+            element = document.createElement('p');
+            element.style.fontStyle = 'italic';
+          } else { // Handling other types of tokens generically
+            element = document.createElement('p');
+          }
+          element.textContent = token.text;
+          scriptElement.appendChild(element);
+        });
+      });
+  </script>
+</body>
+</html>
